@@ -5,31 +5,26 @@
 FROM alpine:latest
 LABEL maintainer "Gene Semerenko - https://github.com/genesem"
 
-COPY about /usr/local/bin/ 
-# COPY setconf.sh /etc/nginx/setconf
+# update repositories to edge
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories; \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories; \
+    echo "UTC" > /etc/timezone;
 
 RUN set -eux; \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories; \
-    apk update && apk add -u procps bind-tools \
-    rm -rf /var/cache/apk/*; \
-    chmod +x /usr/local/bin/about; \
-    mkdir -p /var/www/logs /var/www/html;
+    apk update && apk upgrade; \
+    apk add --no-cache php php-common \
+    php-odbc php-pdo php-pdo_odbc php-pdo_dblib \
+    php-mysqli php-pdo_mysql php-pdo_pgsql \
+    php-bcmath php-xml php-xmlreader php-bz2 php-iconv \
+    php-opcache php-zip php-json php82-mbstring php82-session;
 
-#COPY *.conf /etc/nginx/
-#COPY conf.d /etc/nginx/conf.d
+RUN rm -rf /var/cache/apk/*; \
+    mkdir -p /var/www;
 
-COPY www     /var/www
-#WORKDIR     /etc/nginx/
+COPY www    /var/www
+WORKDIR     /var/www
 
-# Execute the script to set internal dns resolver:
-# ENTRYPOINT ["/bin/ash", "setconf.sh"]  # must be called from pod post init
+STOPSIGNAL SIGINT
+EXPOSE 8080
 
-# STOPSIGNAL SIGTERM
-STOPSIGNAL SIGQUIT
-
-EXPOSE 8010
-
-#ENTRYPOINT ["/entrypoint.sh"]
-CMD ["php-fpm"]
-
-
+CMD	[ "php", "-S", "[::]:8080", "-t", "/var/www" ]

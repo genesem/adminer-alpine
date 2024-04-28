@@ -16,7 +16,6 @@ _cgo_export.*
 
 _testmain.go
 makefile
-
 *.cmd
 *.exe
 *.test

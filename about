@@ -1,5 +1,0 @@
-#!/bin/ash
-echo ""
-echo "* Alpine Linux $(cat /etc/alpine-release)"
-echo "* Built by Gene Semerenko (https://github.com/genesem/adminer-alpine)"
-echo ""
