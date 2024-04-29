@@ -24,6 +24,7 @@ Plugins built-in:
 
 Example docker compose file in two containers: PostgreSQL and adminer-alpine.
 
+file `docker-compose.yml`:
 ```
 name: pgsql_16
 services:
@@ -55,8 +56,10 @@ networks:
    postgres:
      driver: bridge
 ```
+Start it with command: 
+`mkdir -p pgdata && docker-compose up -d`
 
-open: http://localhost:8080  connect to pgsql with:
+Open in browser: http://localhost:8080  connect to pgsql with:
  - server: db
  - user: postgres
  - password: postgres 
