@@ -1,7 +1,7 @@
 
 # adminer-alpine
 
-Adminer +  ~~Editor~~ on Alpine, super small and fast
+Adminer +  ~~Editor~~ on Alpine, super small and fast.
 
 - Git: https://github.com/genesem/adminer-alpine
 - Docker: https://hub.docker.com/r/genesem/adminer-alpine
@@ -56,8 +56,7 @@ networks:
      driver: bridge
 ```
 
-open: http://localhost:8080
-connect to pgsql:
+open: http://localhost:8080  connect to pgsql with:
  - server: db
  - user: postgres
  - password: postgres 
